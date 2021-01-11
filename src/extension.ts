@@ -8,31 +8,27 @@
      ## ## ## :##
       ## ## ##*/
 
+import * as dayjs from 'dayjs'
 import { basename } from 'path'
-import vscode = require('vscode')
-import moment = require('moment')
-
 import {
-  ExtensionContext, TextEdit, TextEditorEdit, TextDocument, Position, Range
+  commands, Disposable, ExtensionContext, Position, Range, TextDocument, TextEdit, window,
+  workspace
 } from 'vscode'
 
-import {
-  extractHeader, getHeaderInfo, renderHeader,
-  supportsLanguage, HeaderInfo
-} from './header'
+import { extractHeader, getHeaderInfo, HeaderInfo, renderHeader, supportsLanguage } from './header'
 
 /**
  * Return current user from config or ENV by default
  */
 const getCurrentUser = () =>
-  vscode.workspace.getConfiguration()
+  workspace.getConfiguration()
     .get('42header.username') || process.env['USER'] || 'marvin'
 
 /**
  * Return current user mail from config or default value
  */
 const getCurrentUserMail = () =>
-  vscode.workspace.getConfiguration()
+  workspace.getConfiguration()
     .get('42header.email') || `${getCurrentUser()}@student.42.fr`
 
 /**
@@ -46,7 +42,7 @@ const newHeaderInfo = (document: TextDocument, headerInfo?: HeaderInfo) => {
   return Object.assign({},
     // This will be overwritten if headerInfo is not null
     {
-      createdAt: moment(),
+      createdAt: dayjs(),
       createdBy: user
     },
     headerInfo,
@@ -54,7 +50,7 @@ const newHeaderInfo = (document: TextDocument, headerInfo?: HeaderInfo) => {
       filename: basename(document.fileName),
       author: `${user} <${mail}>`,
       updatedBy: user,
-      updatedAt: moment()
+      updatedAt: dayjs()
     }
   )
 }
@@ -63,17 +59,17 @@ const newHeaderInfo = (document: TextDocument, headerInfo?: HeaderInfo) => {
  * `insertHeader` Command Handler
  */
 const insertHeaderHandler = () => {
-  const { activeTextEditor } = vscode.window
+  const { activeTextEditor } = window
 
   if (!activeTextEditor) {
-    vscode.window.showInformationMessage('activeTextEditor is undefined.')
+    window.showInformationMessage('activeTextEditor is undefined.')
     return
   }
 
   const { document } = activeTextEditor
 
   if (!supportsLanguage(document.languageId)) {
-    vscode.window.showInformationMessage(
+    window.showInformationMessage(
       `No header support for language ${document.languageId}`
     )
     return
@@ -104,8 +100,8 @@ const insertHeaderHandler = () => {
 /**
  * Start watcher for document save to update current header
  */
-const startUpdateOnSaveWatcher = (subscriptions: vscode.Disposable[]) =>
-  vscode.workspace.onWillSaveTextDocument(event => {
+const startUpdateOnSaveWatcher = (subscriptions: Disposable[]) =>
+  workspace.onWillSaveTextDocument(event => {
     const document = event.document
     const currentHeader = extractHeader(document.getText())
 
@@ -129,8 +125,8 @@ const startUpdateOnSaveWatcher = (subscriptions: vscode.Disposable[]) =>
   )
 
 
-export const activate = (context: vscode.ExtensionContext) => {
-  const disposable = vscode.commands
+export const activate = (context: ExtensionContext) => {
+  const disposable = commands
     .registerTextEditorCommand('42header.insertHeader', insertHeaderHandler)
 
   context.subscriptions.push(disposable)

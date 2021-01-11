@@ -8,16 +8,17 @@
      ## ## ## :##
       ## ## ##*/
 
-import moment = require('moment')
+import * as dayjs from 'dayjs'
+
 import { languageDemiliters } from './delimiters'
 
 export type HeaderInfo = {
   filename: string,
   author: string,
   createdBy: string,
-  createdAt: moment.Moment,
+  createdAt: dayjs.Dayjs,
   updatedBy: string,
-  updatedAt: moment.Moment
+  updatedAt: dayjs.Dayjs
 }
 
 /**
@@ -62,14 +63,14 @@ const pad = (value: string, width: number) =>
 /**
  * Stringify Date to correct format for header
  */
-const formatDate = (date: moment.Moment) =>
+const formatDate = (date: dayjs.Dayjs) =>
   date.format('YYYY/MM/DD HH:mm:ss')
 
 /**
  * Get Date object from date string formatted for header
  */
 const parseDate = (date: string) =>
-  moment(date, 'YYYY/MM/DD HH:mm:ss')
+  dayjs(date, 'YYYY/MM/DD HH:mm:ss')
 
 /**
  * Check if language is supported

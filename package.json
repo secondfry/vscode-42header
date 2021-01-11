@@ -2,7 +2,7 @@
   "name": "42header-long",
   "displayName": "42 Header (Long)",
   "description": "42 header, which is using all whitespace for filename, email and other fields, for VSCode: www.42.fr",
-  "version": "0.42.8",
+  "version": "0.43.0",
   "publisher": "secondfry",
   "icon": "42.png",
   "repository": {
@@ -23,7 +23,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension",
   "contributes": {
     "configuration": {
       "properties": {
@@ -63,6 +63,6 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "moment": "^2.15.0"
+    "dayjs": "^1.10.3"
   }
 }
