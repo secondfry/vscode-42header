@@ -2,7 +2,7 @@
   "name": "42header-long",
   "displayName": "42 Header (Long)",
   "description": "42 header, which is using all whitespace for filename, email and other fields, for VSCode: www.42.fr",
-  "version": "0.43.0",
+  "version": "0.43.1",
   "publisher": "secondfry",
   "icon": "42.png",
   "repository": {
