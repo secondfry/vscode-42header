@@ -1,18 +1,18 @@
 {
-  "name": "42header",
-  "displayName": "42 Header",
-  "description": "42 header for VSCode : www.42.fr",
-  "version": "0.42.7",
-  "publisher": "kube",
+  "name": "42header-long",
+  "displayName": "42 Header (Long)",
+  "description": "42 header, which is using all whitespace for filename, email and other fields, for VSCode: www.42.fr",
+  "version": "0.42.8",
+  "publisher": "secondfry",
   "icon": "42.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kube/vscode-42header"
+    "url": "https://github.com/secondfry/vscode-42header"
   },
   "bugs": {
-    "url": "https://github.com/kube/vscode-42header/issues"
+    "url": "https://github.com/secondfry/vscode-42header/issues"
   },
-  "homepage": "https://github.com/kube/vscode-42header",
+  "homepage": "https://github.com/secondfry/vscode-42header",
   "license": "MIT",
   "engines": {
     "vscode": "^1.6.0"
@@ -55,13 +55,12 @@
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "compile": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/node": "^6.0.45",
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0"
+    "@types/node": "^14.14.20",
+    "@types/vscode": "^1.6.0",
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "moment": "^2.15.0"
