@@ -64,33 +64,41 @@ const newHeaderInfo = (document: TextDocument, headerInfo?: HeaderInfo) => {
  */
 const insertHeaderHandler = () => {
   const { activeTextEditor } = vscode.window
+
+  if (!activeTextEditor) {
+    vscode.window.showInformationMessage('activeTextEditor is undefined.')
+    return
+  }
+
   const { document } = activeTextEditor
 
-  if (supportsLanguage(document.languageId))
-    activeTextEditor.edit(editor => {
-      const currentHeader = extractHeader(document.getText())
-
-      if (currentHeader)
-        editor.replace(
-          new Range(0, 0, 12, 0),
-          renderHeader(
-            document.languageId,
-            newHeaderInfo(document, getHeaderInfo(currentHeader))
-          )
-        )
-      else
-        editor.insert(
-          new Position(0, 0),
-          renderHeader(
-            document.languageId,
-            newHeaderInfo(document)
-          )
-        )
-    })
-  else
+  if (!supportsLanguage(document.languageId)) {
     vscode.window.showInformationMessage(
       `No header support for language ${document.languageId}`
     )
+    return
+  }
+
+  activeTextEditor.edit(editor => {
+    const currentHeader = extractHeader(document.getText())
+
+    if (currentHeader)
+      editor.replace(
+        new Range(0, 0, 12, 0),
+        renderHeader(
+          document.languageId,
+          newHeaderInfo(document, getHeaderInfo(currentHeader))
+        )
+      )
+    else
+      editor.insert(
+        new Position(0, 0),
+        renderHeader(
+          document.languageId,
+          newHeaderInfo(document)
+        )
+      )
+  })
 }
 
 /**

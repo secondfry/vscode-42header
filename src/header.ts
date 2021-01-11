@@ -42,7 +42,9 @@ const genericTemplate = `
  * Get specific header template for languageId
  */
 const getTemplate = (languageId: string) => {
-  const [left, right] = languageDemiliters[languageId]
+  // xxx-secondfry: upon getting here we've already checked if supportsLanguage()
+  // so in no case we can get undefined from next statement.
+  const [left, right] = languageDemiliters[languageId]!
   const width = left.length
 
   // Replace all delimiters with ones for current language
@@ -96,7 +98,10 @@ const fieldRegex = (name: string) =>
  * Get value for given field name from header string
  */
 const getFieldValue = (header: string, name: string) => {
-  const [_, offset, field] = genericTemplate.match(fieldRegex(name))
+  // xxx-secondfry: we are only using those names
+  // which we are sure are in genericTemplate.
+  // Just check usage.
+  const [_, offset, field] = genericTemplate.match(fieldRegex(name))!
 
   return header.substr(offset.length, field.length)
 }
@@ -105,7 +110,10 @@ const getFieldValue = (header: string, name: string) => {
  * Set field value in header string
  */
 const setFieldValue = (header: string, name: string, value: string) => {
-  const [_, offset, field] = genericTemplate.match(fieldRegex(name))
+  // xxx-secondfry: we are only using those names
+  // which we are sure are in genericTemplate.
+  // Just check usage.
+  const [_, offset, field] = genericTemplate.match(fieldRegex(name))!
 
   return header.substr(0, offset.length)
     .concat(pad(value, field.length))
